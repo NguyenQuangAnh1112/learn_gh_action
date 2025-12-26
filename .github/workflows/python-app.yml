@@ -1,0 +1,34 @@
+name: Python Application CI
+
+# 1. EVENTS (sự kiên kích hoạt)
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+
+# 2. JOBS (công việc cần làm)
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    # 3. STEPS (các bước thực hiện tuần tự)
+    steps:
+    # Bước 1: lấy code từ kho chứa về máy ảo
+      - uses: actions/checkout@v2
+    # Bước 2: cài đặt python
+      - name: Set up python 3.8
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.8
+
+    # Bước 3: cài đặt thư viện
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+        
+    # Bước 4: Chạy test
+      - name: Test with pytest
+        run: |
+          pytest
